@@ -1,5 +1,7 @@
 Create database online_store;
 
+---- voy a trabajar dentro de la base de datos online_store
+
 USE online_store;
 GO
 
@@ -257,6 +259,127 @@ SELECT * FROM product;
 SELECT * FROM payments;
 
 
+Use online_store;
+go 
+
+-- INNER JOIN entre customers y orders 
+select 
+c.first_name,
+c.last_name,
+o.order_id,
+o.order_date
+from customers c
+inner join orders o
+on c.customer_id = o.customer_id;
+
+-- SUm sirve para sumar dinero calcula el subtotal
+
+select 
+c.first_name,
+c.last_name,
+sum(od.quantity * od.unit_price) as total_spent
+from customers c 
+inner join orders o
+on c.customer_id = o.customer_id
+inner join order_details od
+on o.order_id = od.order_id
+group by c.first_name, c.last_name; -- agrupa por clientes / group by row or cliente o 
+
+
+-- ORDER BY sirve para odernar resultados / order results
+
+
+select 
+c.first_name,
+c.last_name,
+sum(od.quantity * od.unit_price) as total_spent
+from customers c
+inner join orders o
+on c.customer_id = o.customer_id
+inner join order_details od
+on o.order_id= od.order_id
+group by c.first_name, c.last_name
+ORDER BY total_spent DESC;
+
+
+select count (*) as total_orders --- count cuenta todas las filas rows
+from orders;
+
+select count (*) as total_product
+from product;
+
+
+select count(*) as customers
+from customers;
+
+
+select  -- aqui miramos las ordenes que hizo el cliente
+c.first_name,
+count(o.order_id) as total_orders
+from customers c
+inner join orders o 
+on c.customer_id = o.customer_id
+group by c.first_name;
+
+--- Count sirve para contar Clientes o otra 
+
+select count(*) as total_customers
+from customers;
+
+-- Count Orders per customer
+select 
+c.first_name,
+count(o.order_id) as total_orders
+from customers c
+inner join orders o
+on c.customer_id = o.customer_id
+group by c.first_name;
+
+-- Dinero total money spent per client
+
+select 
+c.first_name,
+c.last_name,
+sum(od.quantity * od.unit_price) as total_spent
+from customers c
+inner join orders o
+on  c.customer_id = o.customer_id
+inner join order_details od
+on o.order_id = od.order_id
+group by c.first_name, c.last_name
+order by total_spent desc;
+
+-- Best Selling product / producto vendidos
+
+select p.product_name,
+sum(od.quantity) as total_sold
+from product p
+inner join order_details od 
+on p.product_id = od.product_id
+group by p.product_name
+order by total_sold desc;
+
+-- total store  renueve  Ganancias totales
+
+select 
+sum(amount) as total_revenue
+from payments;
+
+--- Average= promedio price
+
+select avg(price) as average_price
+from product;
 
 
 
+ -- Left Join ensena todos los customer  and if a customer has order they appear
+
+Select 
+
+c.first_name,
+c.last_name,
+o.order_id,
+o.status
+from customers c
+left join orders o
+on c.customer_id = o.customer_id;
