@@ -383,3 +383,49 @@ o.status
 from customers c
 left join orders o
 on c.customer_id = o.customer_id;
+
+
+--- Left Join muestra todos los customers aunque no tengan órdenes
+
+Select 
+c.first_name,
+c.last_name,
+o.order_id,
+o.status
+
+from customers c
+left join orders o
+on c.customer_id = o.customer_id;
+
+-- Where are filtros / Filters
+select 
+* from customers 
+where city = 'LimaPeru';
+
+select * from customers
+where first_name = 'kevin'
+---------- Modificar datops / Actualizar datos 
+update customers
+set city = 'LimaPeru'
+where first_name = 'kevin' ;
+
+
+-- Having Agrupan filas que tienen el mismo valor / rows have same values
+
+select 
+status,
+count(*) as total_orders
+from orders
+group by status
+having count (*) >2;
+
+-- Else condiciion se cumple / AS ponerle el noimbre nueva columna
+Select 
+first_name,
+city,
+
+case
+when city = 'limaPeru' then 'peru customer'
+else ' other customer '
+end as customer_type
+from customers;
